@@ -59,4 +59,4 @@ typings/
 
 node_modules
 
-.env
+#.env
