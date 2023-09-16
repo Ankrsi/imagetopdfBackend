@@ -16,7 +16,7 @@
 DB_URL=
 
 PORT=3000
-SECRET=AAA
+SECRET=
 ````
 
 ## Run
