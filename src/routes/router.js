@@ -74,8 +74,17 @@ router.post('/imagetopdf',(req, res) => {
                 ?pdf.addPage('a4','p').addImage(data[2],data[1].split('/')[1].toUpperCase(),x,y,img_w,img_h)
                 :pdf.addImage(data[2],data[1].split('/')[1].toUpperCase(),x,y,img_w,img_h)
         });
+        
         let out = pdf.output('dataurlstring',{filename:'output.pdf'})
-        res.status(200).json({result:out});
+        //res.status(200).json({result:out});
+        const chunkSize = 1024;
+        const dataLen = `${out.length}<<>>`;
+        out = dataLen+out;
+        for(let offset = 0; offset < out.length; offset += chunkSize) {
+            const chunkData = out.slice(offset, offset + chunkSize);
+            res.status(200).write(chunkData);
+        }
+        res.status(200).end();
     });
 });
 
